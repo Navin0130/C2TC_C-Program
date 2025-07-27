@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+
+// Base class
+class Shape {
+protected:
+    string name;
+
+public:
+    Shape(string n) {
+        name = n;
+    }
+
+    // Pure virtual function
+    virtual void calculateArea() = 0;
+
+    // Virtual destructor
+    virtual ~Shape() {}
+};
+
+// Derived class - Rectangle
+class Rectangle : public Shape {
+    float length, breadth;
+
+public:
+    Rectangle(float l, float b) : Shape("Rectangle") {
+        length = l;
+        breadth = b;
+    }
+
+    void calculateArea() override {
+        cout << name << " Area: " << length * breadth << endl;
+    }
+};
+
+// Derived class - Circle
+class Circle : public Shape {
+    float radius;
+
+public:
+    Circle(float r) : Shape("Circle") {
+        radius = r;
+    }
+
+    void calculateArea() override {
+        cout << name << " Area: " << 3.14 * radius * radius << endl;
+    }
+};
+
+// Derived class - Triangle
+class Triangle : public Shape {
+    float base, height;
+
+public:
+    Triangle(float b, float h) : Shape("Triangle") {
+        base = b;
+        height = h;
+    }
+
+    void calculateArea() override {
+        cout << name << " Area: " << 0.5 * base * height << endl;
+    }
+};
+
+// Main function
+int main() {
+    // Array of base class pointer (Shape*)
+    Shape* shapes[3];
+
+    // Creating different shape objects
+    shapes[0] = new Rectangle(10, 5);   // Rectangle with length=10, breadth=5
+    shapes[1] = new Circle(7);          // Circle with radius=7
+    shapes[2] = new Triangle(6, 4);     // Triangle with base=6, height=4
+
+    // Calculate area using polymorphism
+    for (int i = 0; i < 3; i++) {
+        shapes[i]->calculateArea();
+        delete shapes[i]; // Memory free
+    }
+
+    return 0;
+}
