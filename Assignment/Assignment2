@@ -1,0 +1,110 @@
+#include <iostream>
+using namespace std;
+
+class Complex {
+private:
+    float real;
+    float imag;
+
+public:
+    // Constructor
+    Complex(float r = 0, float i = 0) {
+        real = r;
+        imag = i;
+    }
+
+    // Input operator >>
+    friend istream& operator>>(istream& in, Complex& c) {
+        cout << "Enter real part: ";
+        in >> c.real;
+        cout << "Enter imaginary part: ";
+        in >> c.imag;
+        return in;
+    }
+
+    // Output operator <<
+    friend ostream& operator<<(ostream& out, const Complex& c) {
+        out << c.real;
+        if (c.imag >= 0)
+            out << " + " << c.imag << "i";
+        else
+            out << " - " << -c.imag << "i";
+        return out;
+    }
+
+    // Overload +
+    Complex operator+(const Complex& c) {
+        return Complex(real + c.real, imag + c.imag);
+    }
+
+    // Overload -
+    Complex operator-(const Complex& c) {
+        return Complex(real - c.real, imag - c.imag);
+    }
+
+    // Overload *
+    Complex operator*(const Complex& c) {
+        return Complex(
+            real * c.real - imag * c.imag,
+            real * c.imag + imag * c.real
+        );
+    }
+
+    // Overload ==
+    bool operator==(const Complex& c) {
+        return (real == c.real) && (imag == c.imag);
+    }
+};
+
+int main() {
+    Complex c1, c2;
+
+    cout << "Enter first complex number:\n";
+    cin >> c1;
+
+    cout << "\nEnter second complex number:\n";
+    cin >> c2;
+
+    int choice;
+    Complex result;
+
+    do {
+        cout << "\n--- MENU ---\n";
+        cout << "1. Addition\n";
+        cout << "2. Subtraction\n";
+        cout << "3. Multiplication\n";
+        cout << "4. Compare (==)\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            result = c1 + c2;
+            cout << "Addition Result: " << result << endl;
+            break;
+        case 2:
+            result = c1 - c2;
+            cout << "Subtraction Result: " << result << endl;
+            break;
+        case 3:
+            result = c1 * c2;
+            cout << "Multiplication Result: " << result << endl;
+            break;
+        case 4:
+            if (c1 == c2)
+                cout << "Both complex numbers are equal.\n";
+            else
+                cout << "Complex numbers are not equal.\n";
+            break;
+        case 5:
+            cout << "Exiting...\n";
+            break;
+        default:
+            cout << "Invalid choice.\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
